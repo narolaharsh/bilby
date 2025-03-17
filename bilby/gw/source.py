@@ -104,58 +104,56 @@ def lal_binary_black_hole_with_amplitude_phase_modification(
     phase0 = {}
     for pol in polas:
         phase0[pol] = np.unwrap(np.angle(polas[pol]))
-
-    if waveform_kwargs['error_in_phase'] not in ['relative', 'absolute']:
+    if kwargs['error_in_phase'] not in ['relative', 'absolute']:
         raise ValueError('Only two types of errors are supported, "relative" and "absolute".')
     
-    if waveform_kwargs['modification_type'] == 'cubic_spline':
-        wf_nodal_points = waveform_kwargs['nodal_points']
-        delta_amplitude_arr = waveform_kwargs['delta_amplitude']
-        delta_phase_arr = waveform_kwargs['delta_phase']
+    if kwargs['modification_type'] == 'cubic_spline':
+        wf_nodal_points = kwargs['nodal_points']
+        delta_amplitude_arr = kwargs['delta_amplitude']
+        delta_phase_arr = kwargs['delta_phase']
         delta_amplitude_interp = CubicSpline(wf_nodal_points, delta_amplitude_arr)
         delta_phase_interp = CubicSpline(wf_nodal_points, delta_phase_arr)
 
 
-        if waveform_kwargs['error_in_phase'] == 'relative':
+        if kwargs['error_in_phase'] == 'relative':
             for pol in polas:
                 polas[pol] *= (1+delta_amplitude_interp(frequency_array)) * np.exp(1j * phase0[pol] * delta_phase_interp(frequency_array))
 
-        elif waveform_kwargs['error_in_phase'] == 'absolute':
+        elif kwargs['error_in_phase'] == 'absolute':
             for pol in polas:
                 polas[pol] *= (1+delta_amplitude_interp(frequency_array)) * np.exp(1j * delta_phase_interp(frequency_array))
             
 
-    elif waveform_kwargs['modification_type'] == 'constant_shift':
-        delta_amplitude = waveform_kwargs['delta_amplitude']
-        delta_phase = waveform_kwargs['delta_phase']
+    elif kwargs['modification_type'] == 'constant_shift':
+
+        delta_amplitude = kwargs['delta_amplitude']
+        delta_phase = kwargs['delta_phase']
         
-        if waveform_kwargs['error_in_phase'] == 'relative':
+        if kwargs['error_in_phase'] == 'relative':
             for pol in polas:
                 polas[pol] *= (1+delta_amplitude) * np.exp(1j * phase0[pol] * delta_phase)
 
-        elif waveform_kwargs['error_in_phase'] == 'absolute':
+        elif kwargs['error_in_phase'] == 'absolute':
             for pol in polas:
                 polas[pol] *= (1+delta_amplitude) * np.exp(1j * delta_phase)
 
-
-
-    elif waveform_kwargs['modification_type'] == 'cubic_spline_nodes':
-        f_lower = waveform_kwargs['minimum_frequency']
-        f_high_wferror = waveform_kwargs['f_high_wferror']
-        n_nodes_wferror = int(waveform_kwargs['n_nodes_wferror'])
+    elif kwargs['modification_type'] == 'cubic_spline_nodes':
+        f_lower = kwargs['minimum_frequency']
+        f_high_wferror = kwargs['f_high_wferror']
+        n_nodes_wferror = int(kwargs['n_nodes_wferror'])
         wf_nodal_points = np.logspace(np.log10(f_lower), np.log10(f_high_wferror), n_nodes_wferror)
 
-        delta_amplitude_arr = np.hstack([waveform_kwargs['wferror_amplitude_{}'.format(i)] for i in range(len(wf_nodal_points))])
-        delta_phase_arr = np.hstack([waveform_kwargs['wferror_phase_{}'.format(i)]for i in range(len(wf_nodal_points))])
+        delta_amplitude_arr = np.hstack([kwargs['wferror_amplitude_{}'.format(i)] for i in range(len(wf_nodal_points))])
+        delta_phase_arr = np.hstack([kwargs['wferror_phase_{}'.format(i)]for i in range(len(wf_nodal_points))])
 
         delta_amplitude_interp = CubicSpline(wf_nodal_points, delta_amplitude_arr)
         delta_phase_interp = CubicSpline(wf_nodal_points, delta_phase_arr)
 
-        if waveform_kwargs['error_in_phase'] == 'relative':
+        if kwargs['error_in_phase'] == 'relative':
             for pol in polas:
                 polas[pol] *= (1+delta_amplitude_interp) * np.exp(1j * phase0[pol] * delta_phase_interp)
 
-        elif waveform_kwargs['error_in_phase'] == 'absolute':
+        elif kwargs['error_in_phase'] == 'absolute':
             for pol in polas:
                 polas[pol] *= (1+delta_amplitude_interp) * np.exp(1j * delta_phase_interp)
 
