@@ -21,7 +21,7 @@ Unused waveform_kwargs: {waveform_kwargs}
 
 def lal_binary_black_hole_with_amplitude_phase_modification(
         frequency_array, mass_1, mass_2, luminosity_distance, a_1, tilt_1,
-        phi_12, a_2, tilt_2, phi_jl, theta_jn, phase, **kwargs):
+        phi_12, a_2, tilt_2, phi_jl, theta_jn, phase, delta_phase, delta_amplitude, **kwargs):
     """ A Binary Black Hole waveform model using lalsimulation
 
     Parameters
@@ -126,8 +126,6 @@ def lal_binary_black_hole_with_amplitude_phase_modification(
 
     elif kwargs['modification_type'] == 'constant_shift':
 
-        delta_amplitude = kwargs['delta_amplitude']
-        delta_phase = kwargs['delta_phase']
         
         if kwargs['error_in_phase'] == 'relative':
             for pol in polas:
