@@ -98,7 +98,7 @@ likelihood = bilby.gw.GravitationalWaveTransient(
     earth_rotation=True,
 )
 
-
+exit()
 # Run sampler. In this case we're going to use the `dynesty` sampler
 # Note that the `nlive`, `naccept`, and `sample` parameters are specified
 # to ensure sufficient convergence of the analysis.

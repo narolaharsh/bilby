@@ -346,6 +346,9 @@ class Interferometer(object):
 
         # dimensionless frequency
         v = (np.pi * total_mass_seconds * frequencies) ** (1. / 3.)
+        # The first value of v is 0. This is problematic when dividing or taking log.
+        # So I set to a small positive number. It is maksed later in the code
+        v[v == 0] = 1e-9
 
         scaling_factor = 5. / 256 * total_mass_seconds / (eta * (v ** 8.))
 
@@ -452,11 +455,6 @@ class Interferometer(object):
                     parameters['ra'], parameters['dec'],
                     antenna_time, parameters['psi'], mode)
 
-                # Pad det_response to match the length of self.frequency_array,
-                # which equals the length of each waveform polarization.
-                det_response_padded = np.zeros(len(self.frequency_array))
-                det_response_padded[mask] = det_response
-                det_response = det_response_padded
             else:
                 det_response = self.antenna_response(
                     parameters['ra'],
