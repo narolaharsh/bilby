@@ -65,13 +65,14 @@ glitch_generator = gengli.glitch_generator("L1")
 glitch_time_domain_strain = glitch_generator.get_glitch(srate=sampling_frequency)
 
 # onset_time is the time at which glitch will be injected and snr is the snr of the glitch.
-glitch_parameters = dict(onset_time=injection_parameters["geocent_time"] + 2, snr=9)
+glitch_parameters = dict(
+    onset_time=injection_parameters["geocent_time"] - 2, snr=glitch_snr
+)
 glitch_sample_times = (
     np.arange(0, len(glitch_time_domain_strain), 1) / sampling_frequency
 )
 
 ifos[0].inject_glitch(
-    glitch_snr,
     glitch_parameters=glitch_parameters,
     glitch_time_domain_strain=glitch_time_domain_strain,
     glitch_sample_times=glitch_sample_times,

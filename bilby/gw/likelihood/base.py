@@ -7,7 +7,7 @@ import attr
 import numpy as np
 from scipy.special import logsumexp
 
-from ...core.likelihood import Likelihood, _fallback_to_parameters
+from ...core.likelihood import Likelihood
 from ...core.utils import logger, BoundedRectBivariateSpline, create_time_series
 from ...core.prior import Interped, Prior, Uniform, DeltaFunction
 from ..detector import InterferometerList, get_empty_interferometer, calibration
@@ -740,7 +740,6 @@ class GravitationalWaveTransient(Likelihood):
         interferometer: bilby.gw.detector.Interferometer
             Interferometer to compute the response with respect to.
         """
-        parameters = _fallback_to_parameters(self, parameters)
         return interferometer.get_detector_response(signal_polarizations,
                                                     parameters, earth_rotation=self.earth_rotation)
 
