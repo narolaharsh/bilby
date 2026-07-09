@@ -13,6 +13,8 @@ from bilby.core.result import ResultError, FileLoadError
 from bilby.core.utils import logger
 
 
+@pytest.mark.array_backend
+@pytest.mark.usefixtures("xp_class")
 class TestJson(unittest.TestCase):
 
     def setUp(self):
@@ -28,12 +30,12 @@ class TestJson(unittest.TestCase):
         self.assertTrue(np.all(data["x"] == decoded["x"]))
 
     def test_array_encoding(self):
-        data = dict(x=np.array([1, 2, 3.4]))
+        data = dict(x=self.xp.asarray([1, 2, 3.4]))
         encoded = json.dumps(data, cls=self.encoder)
         decoded = json.loads(encoded, object_hook=self.decoder)
         self.assertEqual(data.keys(), decoded.keys())
         self.assertEqual(type(data["x"]), type(decoded["x"]))
-        self.assertTrue(np.all(data["x"] == decoded["x"]))
+        self.assertTrue(self.xp.all(data["x"] == decoded["x"]))
 
     def test_complex_encoding(self):
         data = dict(x=1 + 3j)
@@ -77,7 +79,7 @@ class TestResult(unittest.TestCase):
         result = bilby.core.result.Result(
             label="label",
             outdir=self.outdir,
-            sampler="nestle",
+            sampler="emcee",
             search_parameter_keys=["x", "y"],
             fixed_parameter_keys=["c", "d"],
             priors=priors,
@@ -182,7 +184,7 @@ class TestResult(unittest.TestCase):
         result = bilby.core.result.Result(
             label="label",
             outdir="outdir",
-            sampler="nestle",
+            sampler="emcee",
             search_parameter_keys=["x", "y"],
             fixed_parameter_keys=["c", "d"],
             priors=None,
@@ -202,7 +204,7 @@ class TestResult(unittest.TestCase):
             bilby.core.result.Result(
                 label="label",
                 outdir="outdir",
-                sampler="nestle",
+                sampler="emcee",
                 search_parameter_keys=["x", "y"],
                 fixed_parameter_keys=["c", "d"],
                 priors=["a", "b"],
@@ -530,7 +532,7 @@ class TestResult(unittest.TestCase):
         for var in ["x", "y"]:
             self.assertTrue(np.array_equal(az.posterior[var].values.squeeze(),
                                            self.result.posterior[var].values))
-            self.assertTrue(len(az.prior[var][0]) == Nprior)
+            self.assertTrue(len(np.squeeze(az.prior[var])) == Nprior)
 
         self.assertTrue(np.array_equal(az.log_likelihood["log_likelihood"].values.squeeze(),
                                        log_likelihood))
@@ -648,7 +650,7 @@ class TestResultListError(unittest.TestCase):
             result = bilby.core.result.Result(
                 label=self.label + str(i),
                 outdir=self.outdir,
-                sampler="cpnest",
+                sampler="emcee",
                 search_parameter_keys=["x", "y"],
                 fixed_parameter_keys=["c", "d"],
                 priors=self.priors,
@@ -780,7 +782,7 @@ class TestResultListError(unittest.TestCase):
         result = bilby.core.result.Result(
             label=self.label,
             outdir=self.outdir,
-            sampler="cpnest",
+            sampler="emcee",
             search_parameter_keys=["x", "y"],
             fixed_parameter_keys=["c", "d"],
             priors=self.priors,
@@ -918,6 +920,8 @@ class TestReweight(unittest.TestCase):
         self.assertNotEqual(new.log_evidence, self.result.log_evidence)
 
 
+@pytest.mark.array_backend
+@pytest.mark.usefixtures("xp_class")
 class TestResultSaveAndRead(unittest.TestCase):
 
     @pytest.fixture(autouse=True)
@@ -939,11 +943,15 @@ class TestResultSaveAndRead(unittest.TestCase):
         result = bilby.core.result.Result(
             label="label",
             outdir=self.outdir,
-            sampler="nestle",
+            sampler="emcee",
             search_parameter_keys=["x", "y"],
             fixed_parameter_keys=["c", "d"],
             priors=priors,
-            sampler_kwargs=dict(test="test", func=lambda x: x),
+            sampler_kwargs=dict(
+                test="test",
+                func=lambda x: x,
+                some_array=self.xp.ones((5, 5)),
+            ),
             injection_parameters=dict(x=0.5, y=0.5),
             meta_data=dict(test="test"),
             sampling_time=100.0,

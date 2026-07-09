@@ -2,13 +2,12 @@
 # The python version should be added before creating the env
 channels:
   - conda-forge
-  - pytorch
 dependencies:
   - pip
   - setuptools
   - setuptools_scm
   - matplotlib
-  - numpy<2.4
+  - numpy
   - scipy
   - pandas
   - astropy
@@ -21,7 +20,7 @@ dependencies:
   - pytest-cov
   - pytest-requires
   - pytest-rerunfailures
-  - arviz<1  # arviz removed InferenceData in version 1
+  - arviz
   - parameterized
   - scikit-image
   - celerite
@@ -30,7 +29,6 @@ dependencies:
   - healpy
   - cython
   - pytorch
-  - cpuonly
   - python-lalsimulation
   - bilby.cython
   - pyseobnr
@@ -42,19 +40,10 @@ dependencies:
   - nbsphinx
   - sphinx_rtd_theme
   - sphinx-design
-  - dynesty
+  - dynesty>=3.0.0
   - emcee
-  - nestle
-  - ptemcee
-  - pymultinest
-  - ultranest
-  - cpnest
-  - kombine
-  - zeus-mcmc
   - pytorch
-  - pymc>=5.9
-  - nessai
-  - ptmcmcsampler
+  - pytorch-cpu
   - jaxlib>=0.4
   - jax>=0.4
   - numba>0.53.1
@@ -66,8 +55,15 @@ dependencies:
   - nbconvert
   - twine
   - glasflow
+  - nessai-bilby
   - myst-parser
+  - array-api-compat
+  - array-api-extra
+  - plum-dispatch
   - pip:
     - autodoc
     - ipykernel
     - build
+    - nestle-bilby    # Plugins should be moved to conda once they are available there
+    - cpnest-bilby
+    - zeus-bilby
