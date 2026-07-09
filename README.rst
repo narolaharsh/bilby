@@ -6,6 +6,9 @@ Bilby
 
 A bilby fork to develop features for A# and/or 3G detectors:
 
+- The main branch will track the upstream bilby repository.
+   - The features will live in the `dev` branch of this fork. 
+
 - Inject glitches to the data:
    - An example script is at ``examples/gw_examples/injection_examples/glitch.py``
    - An example script to inject `blip glitches <https://git.ligo.org/melissa.lopez/gengli>`_ is at: ``examples/gw_examples/injection_examples/inject_glitch_from_gengli.py``. 
