@@ -135,8 +135,9 @@ likelihood = bilby.gw.likelihood.RelativeBinningGravitationalWaveTransient(
     priors=priors,
     distance_marginalization=True,
     fiducial_parameters=fiducial_parameters,
+    update_fiducial_parameters=True,
 )
-
+exit()
 # Run sampler.  In this case, we're going to use the `nestle` sampler
 result = bilby.run_sampler(
     likelihood=likelihood,
