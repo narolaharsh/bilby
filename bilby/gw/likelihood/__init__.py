@@ -3,6 +3,7 @@ from .basic import BasicGravitationalWaveTransient
 from .roq import BilbyROQParamsRangeError, ROQGravitationalWaveTransient
 from .multiband import MBGravitationalWaveTransient
 from .relative import RelativeBinningGravitationalWaveTransient
+from .numerical_relative import NumericalRelativeBinningGravitationalWaveTransient
 
 from ..source import lal_binary_black_hole
 from ..waveform_generator import WaveformGenerator

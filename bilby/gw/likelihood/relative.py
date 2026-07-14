@@ -269,6 +269,7 @@ class RelativeBinningGravitationalWaveTransient(GravitationalWaveTransient):
         parameters = deepcopy(self.fiducial_parameters)
         self._unset_fiducial()
         updated_parameters_list = self.get_parameter_list_from_dictionary(self.fiducial_parameters)
+        print("DEBUG", self.fiducial_parameters)
         old_fiducial_ln_likelihood = self.log_likelihood_ratio(self.fiducial_parameters)
         logger.info(f"Fiducial ln likelihood ratio: {old_fiducial_ln_likelihood:.2f}")
         for it in range(iterations):
