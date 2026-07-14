@@ -4,10 +4,10 @@
 Bilby
 =====
 
-A bilby fork to develop features for A# and/or 3G detectors:
+A bilby fork to develop features for A# and/or 3G detectors. In this repository,
 
-- The main branch will track the upstream bilby repository.
-   - The features will live in the `dev` branch of this fork. 
+- The `bilby_upstream` branch will track the upstream bilby repository.
+   - The features will live in the `main` branch of this fork. 
 
 - Inject glitches to the data:
    - An example script is at ``examples/gw_examples/injection_examples/glitch.py``
