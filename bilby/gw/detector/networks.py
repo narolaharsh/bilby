@@ -142,6 +142,7 @@ class InterferometerList(list):
         injection_polarizations=None,
         waveform_generator=None,
         raise_error=True,
+        earth_rotation=False
     ):
         """ Inject a signal into noise in each of the three detectors.
 
@@ -190,6 +191,7 @@ class InterferometerList(list):
                     parameters=parameters,
                     injection_polarizations=injection_polarizations,
                     raise_error=raise_error,
+                    earth_rotation=earth_rotation
                 )
             )
 
