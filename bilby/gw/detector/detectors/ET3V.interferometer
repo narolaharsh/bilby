@@ -1,0 +1,10 @@
+name = 'ET3V' 
+power_spectral_density = PowerSpectralDensity(psd_file=‘et_10fullcryo_psd.txt')
+length = 10
+minimum_frequency = 3
+maximum_frequency = 4096
+latitude = 50.6
+longitude = -30
+elevation = 0.
+xarm_azimuth = 240.
+yarm_azimuth = 300.

@@ -1,0 +1,11 @@
+
+name = 'F3'
+power_spectral_density = PowerSpectralDensity(psd_file='et_15fullcryo_psd.txt')
+length = 15
+minimum_frequency = 3.0
+maximum_frequency = 4096.0
+latitude = 45.2
+longitude = -30
+elevation = 0
+xarm_azimuth = -42.5
+yarm_azimuth = 47.5
