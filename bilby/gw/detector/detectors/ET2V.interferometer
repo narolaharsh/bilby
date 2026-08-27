@@ -1,5 +1,5 @@
 name = 'ET2V' 
-power_spectral_density = PowerSpectralDensity(psd_file=‘et_10fullcryo_psd.txt')
+power_spectral_density = PowerSpectralDensity(psd_file='et_10fullcryo_psd.txt')
 length = 10
 minimum_frequency = 3
 maximum_frequency = 4096
